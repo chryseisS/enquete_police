@@ -294,9 +294,21 @@
       color: #5a5040;
     }
 
-    @media (max-width: 480px) {
-      .folder { padding: 30px 20px 35px; }
-      .stamp { right: 25px; top: 20px; font-size: 0.85em; padding: 5px 12px; }
+    @media (max-width: 600px) {
+      .folder { padding: 70px 20px 35px; }
+      .stamp {
+        position: static;
+        display: block;
+        margin: 0 auto 20px;
+        width: fit-content;
+        transform: rotate(-4deg);
+        font-size: 0.9em;
+        padding: 6px 14px;
+      }
+      @keyframes stampIn {
+        from { transform: rotate(20deg) scale(1.8); opacity: 0; }
+        to { transform: rotate(-4deg) scale(1); opacity: 0.85; }
+      }
       h1 { font-size: 1.2em; }
       .video-overlay { font-size: 0.65em; }
     }
