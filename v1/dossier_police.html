@@ -34,7 +34,6 @@
       align-items: center;
     }
 
-    /* Bandeau classifié en haut */
     .classified-banner {
       width: 100%;
       max-width: 600px;
@@ -57,7 +56,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Le dossier papier */
     .folder {
       background: var(--bg-paper);
       background-image:
@@ -81,7 +79,6 @@
       to { opacity: 1; transform: rotate(-0.5deg) translateY(0); }
     }
 
-    /* Coin corné */
     .folder::before {
       content: '';
       position: absolute;
@@ -93,7 +90,6 @@
       box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
     }
 
-    /* Tampon CONFIDENTIEL */
     .stamp {
       position: absolute;
       top: 30px;
@@ -235,7 +231,6 @@
 
     .result-error { color: var(--red-deep); font-weight: 700; }
     .result-warning { color: #a06010; font-weight: 700; }
-    .result-late { color: #6b4020; }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -244,55 +239,6 @@
     }
     .shake { animation: shake 0.35s; }
 
-    /* Zone indices */
-    .clues-zone {
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 1px dashed #8a7e60;
-    }
-
-    .clue-link {
-      display: inline-block;
-      font-family: 'Special Elite', serif;
-      font-size: 0.9em;
-      color: #5a5040;
-      cursor: pointer;
-      font-style: italic;
-      border-bottom: 1px dotted #5a5040;
-      transition: color 0.3s;
-    }
-
-    .clue-link:hover { color: var(--red-deep); }
-
-    .clue-text {
-      margin-top: 12px;
-      padding: 10px 14px;
-      background: rgba(255, 255, 255, 0.3);
-      border-left: 3px solid #8a7e60;
-      font-family: 'Special Elite', serif;
-      font-size: 0.9em;
-      color: var(--ink);
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.6s ease, max-height 0.6s ease, margin 0.6s ease;
-    }
-
-    .clue-text.visible {
-      opacity: 1;
-      max-height: 100px;
-      margin-top: 12px;
-    }
-
-    .clue-counter {
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.75em;
-      letter-spacing: 2px;
-      color: #5a5040;
-      margin-top: 12px;
-    }
-
-    /* Tampon AFFAIRE RÉSOLUE animé pour la victoire */
     .victory-stamp {
       position: fixed;
       top: 50%;
@@ -363,20 +309,18 @@
     const COUPABLE = "martin maillard";
     const PAGE_SUIVANTE = "victoire.html";
 
+    // Nettoyage d'une éventuelle ancienne sauvegarde laissée par une version antérieure
+    localStorage.removeItem('enquete_boules_neige');
+
+    // Date d'aujourd'hui pour l'en-tête
     const dateStamp = document.getElementById('dateStamp');
     const today = new Date();
     dateStamp.textContent = today.toLocaleDateString('fr-FR', {
       day: '2-digit', month: '2-digit', year: 'numeric'
     });
 
-    const STORAGE_KEY = 'enquete_boules_neige';
-    let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    let failCount = state.failCount || 0;
-    let trouve = state.trouve || false;
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ failCount, trouve }));
-    }
+    // Compteur d'erreurs : repart à zéro à chaque ouverture/rechargement
+    let failCount = 0;
 
     const input = document.getElementById('suspect');
     const result = document.getElementById('result');
@@ -385,11 +329,10 @@
 
     function checkPassword() {
       const value = input.value.trim().toLowerCase();
-      result.classList.remove('shake', 'result-error', 'result-warning', 'result-late');
+      result.classList.remove('shake', 'result-error', 'result-warning');
 
-      if (value === COUPABLE && failCount < 3 && !trouve) {
-        trouve = true;
-        saveState();
+      // Bonne réponse → redirection
+      if (value === COUPABLE) {
         victoryStamp.classList.add('show');
         setTimeout(() => {
           window.location.href = PAGE_SUIVANTE;
@@ -397,19 +340,8 @@
         return;
       }
 
-      if (value === COUPABLE && failCount >= 3) {
-        result.innerHTML = "Bravo, vous avez identifié le coupable... mais l'affaire est close.";
-        result.classList.add('result-late');
-        void result.offsetWidth;
-        result.classList.add('shake');
-        return;
-      }
-
-
-
       // Mauvaise réponse
       failCount++;
-      saveState();
       let message = "";
       if (failCount === 1) {
         message = "Faux. Cette personne n'est pas le suspect. Nouvel essai ?";
@@ -418,7 +350,7 @@
         message = "Toujours faux. L'enquête s'enlise...";
         result.classList.add('result-warning');
       } else {
-        message = "Trop d'erreurs. Le dossier est classé sans suite.";
+        message = "Encore une erreur. Persévérez, le coupable n'est pas loin...";
         result.classList.add('result-error');
       }
       result.innerHTML = message;
@@ -431,7 +363,6 @@
       if (e.key === 'Enter') checkPassword();
     });
 
-    // Focus auto sur le champ
     input.focus();
   </script>
 </body>
