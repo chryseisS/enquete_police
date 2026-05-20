@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pièce à conviction #14 — Aveu filmé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #1a1814;
+      --bg-paper: #e8e2d0;
+      --paper-shadow: #b8ac8c;
+      --ink: #2a2620;
+      --red-stamp: #b22222;
+      --red-deep: #8b0000;
+      --yellow-tape: #d4a017;
+      --green-success: #2d5a2d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier Prime', monospace;
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(80, 60, 40, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(60, 40, 30, 0.3) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+      min-height: 100vh;
+      padding: 30px 20px 50px;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Bandeau classifié */
+    .classified-banner {
+      width: 100%;
+      max-width: 720px;
+      background: var(--green-success);
+      color: #f4e8d8;
+      padding: 8px 20px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-align: center;
+      font-size: 0.85em;
+      border-top: 2px solid #f4e8d8;
+      border-bottom: 2px solid #f4e8d8;
+      margin-bottom: 30px;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .folder {
+      background: var(--bg-paper);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(0,0,0,0.08), transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(0,0,0,0.12), transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(180, 160, 110, 0.15) 24px, rgba(180, 160, 110, 0.15) 25px);
+      max-width: 720px;
+      width: 100%;
+      padding: 40px 45px 50px;
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(180, 160, 110, 0.2);
+      position: relative;
+      transform: rotate(-0.3deg);
+      animation: paperIn 0.9s ease;
+    }
+
+    @keyframes paperIn {
+      from { opacity: 0; transform: rotate(-2deg) translateY(30px); }
+      to { opacity: 1; transform: rotate(-0.3deg) translateY(0); }
+    }
+
+    .folder::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(225deg, var(--bg-dark) 50%, var(--paper-shadow) 50%);
+      box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Tampon AFFAIRE RÉSOLUE */
+    .stamp {
+      position: absolute;
+      top: 30px;
+      right: 70px;
+      transform: rotate(8deg);
+      border: 4px solid var(--green-success);
+      color: var(--green-success);
+      padding: 8px 18px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.1em;
+      letter-spacing: 4px;
+      opacity: 0.85;
+      background: rgba(45, 90, 45, 0.05);
+      pointer-events: none;
+      animation: stampIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.4s both;
+    }
+
+    @keyframes stampIn {
+      from { transform: rotate(40deg) scale(2); opacity: 0; }
+      to { transform: rotate(8deg) scale(1); opacity: 0.85; }
+    }
+
+    .case-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
+    .case-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75em;
+      letter-spacing: 2px;
+      color: #5a5040;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.6em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .case-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75em;
+      color: #5a5040;
+      margin-top: 8px;
+      font-family: 'Special Elite', serif;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Bloc déverrouillage */
+    .unlock-block {
+      background: rgba(45, 90, 45, 0.1);
+      border-left: 4px solid var(--green-success);
+      padding: 14px 16px;
+      margin: 24px 0;
+      font-family: 'Special Elite', serif;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .unlock-block strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85em;
+      letter-spacing: 2px;
+      color: var(--green-success);
+      margin-bottom: 6px;
+    }
+
+    /* Conteneur vidéo */
+    .evidence-section {
+      margin: 30px 0;
+    }
+
+    .evidence-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85em;
+      letter-spacing: 3px;
+      color: var(--ink);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .evidence-label::before {
+      content: '●';
+      color: var(--red-stamp);
+      font-size: 1.4em;
+      animation: pulseRec 1.5s infinite;
+    }
+
+    @keyframes pulseRec {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .video-frame {
+      position: relative;
+      background: #000;
+      border: 3px solid var(--ink);
+      padding: 0;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    }
+
+    .video-frame video {
+      width: 100%;
+      display: block;
+      background: #000;
+    }
+
+    /* Surimpression timecode et infos sur la vidéo */
+    .video-overlay {
+      position: absolute;
+      pointer-events: none;
+      font-family: 'Courier Prime', monospace;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.75em;
+      letter-spacing: 1px;
+      text-shadow: 0 0 4px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.9);
+      z-index: 2;
+    }
+
+    .overlay-tl { top: 8px; left: 10px; }
+    .overlay-tr { top: 8px; right: 10px; color: rgba(255, 80, 80, 0.95); }
+    .overlay-bl { bottom: 8px; left: 10px; }
+    .overlay-br { bottom: 8px; right: 10px; }
+
+    .rec-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+      vertical-align: middle;
+      margin-right: 4px;
+      animation: pulseRec 1s infinite;
+    }
+
+    /* Métadonnées sous la vidéo */
+    .metadata-grid {
+      margin-top: 18px;
+      padding: 14px 16px;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px dashed #8a7e60;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      font-family: 'Special Elite', serif;
+      font-size: 0.85em;
+    }
+
+    .metadata-item .label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7em;
+      letter-spacing: 2px;
+      color: #5a5040;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .metadata-item .value {
+      color: var(--ink);
+    }
+
+    /* Note finale enquêteur */
+    .inspector-note {
+      margin-top: 30px;
+      padding: 18px 20px;
+      background: rgba(212, 160, 23, 0.15);
+      border-left: 4px solid var(--yellow-tape);
+      font-family: 'Special Elite', serif;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+
+    .inspector-note strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8em;
+      letter-spacing: 2px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .signature {
+      margin-top: 14px;
+      font-family: 'Special Elite', serif;
+      font-style: italic;
+      text-align: right;
+      color: #5a5040;
+    }
+
+    @media (max-width: 480px) {
+      .folder { padding: 30px 20px 35px; }
+      .stamp { right: 25px; top: 20px; font-size: 0.85em; padding: 5px 12px; }
+      h1 { font-size: 1.2em; }
+      .video-overlay { font-size: 0.65em; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="classified-banner">✓ ✓ ✓ AFFAIRE CLÔTURÉE — DOSSIER DÉVERROUILLÉ ✓ ✓ ✓</div>
+
+  <div class="folder">
+    <div class="stamp">AFFAIRE RÉSOLUE</div>
+
+    <div class="case-header">
+      <div class="case-number">DOSSIER N° 2024-SN-013 — PIÈCE À CONVICTION #14</div>
+      <h1>Aveu filmé du suspect</h1>
+      <div class="case-meta">
+        <span>BRIGADE CRIMINELLE</span>
+        <span>SOURCE : INTERCEPTION TÉLÉPHONIQUE</span>
+      </div>
+    </div>
+
+    <div class="unlock-block">
+      <strong>▸ Rapport de clôture</strong>
+      Suite à l'identification du suspect, les services techniques ont
+      procédé à l'examen du téléphone saisi. Une communication récente,
+      enregistrée à son insu, contient un aveu complet ainsi que la
+      localisation de la pièce maîtresse de la collection.
+    </div>
+
+    <div class="evidence-section">
+      <div class="evidence-label">PIÈCE VIDÉO — LECTURE AUTORISÉE</div>
+
+      <div class="video-frame">
+        <div class="video-overlay overlay-tl">CAM-04 · INT. SUSPECT</div>
+        <div class="video-overlay overlay-tr"><span class="rec-dot"></span>REC</div>
+        <div class="video-overlay overlay-bl">DOSSIER 2024-SN-013</div>
+        <div class="video-overlay overlay-br" id="timecode">00:00:00</div>
+
+        <video id="evidenceVideo" controls preload="metadata" playsinline>
+          <source src="drone_5.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas la lecture vidéo.
+        </video>
+      </div>
+
+      <div class="metadata-grid">
+        <div class="metadata-item">
+          <span class="label">▸ Identifiant pièce</span>
+          <span class="value">PC-14 / 2024-SN-013</span>
+        </div>
+        <div class="metadata-item">
+          <span class="label">▸ Date de captation</span>
+          <span class="value" id="captureDate">—</span>
+        </div>
+        <div class="metadata-item">
+          <span class="label">▸ Source</span>
+          <span class="value">Téléphone du suspect (saisi)</span>
+        </div>
+        <div class="metadata-item">
+          <span class="label">▸ Agent en charge</span>
+          <span class="value">Insp. Decroix</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const captureDate = document.getElementById('captureDate');
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    captureDate.textContent = yesterday.toLocaleDateString('fr-FR') + ' — 18:47';
+
+    const video = document.getElementById('evidenceVideo');
+    const tc = document.getElementById('timecode');
+
+    function formatTime(seconds) {
+      const h = Math.floor(seconds / 3600);
+      const m = Math.floor((seconds % 3600) / 60);
+      const s = Math.floor(seconds % 60);
+      return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+    }
+
+    video.addEventListener('timeupdate', () => {
+      tc.textContent = formatTime(video.currentTime);
+    });
+  </script>
+</body>
+</html>
