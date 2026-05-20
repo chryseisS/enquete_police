@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dossier #2024-SN-013 — Identification du suspect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #1a1814;
+      --bg-paper: #e8e2d0;
+      --paper-shadow: #b8ac8c;
+      --ink: #2a2620;
+      --red-stamp: #b22222;
+      --red-deep: #8b0000;
+      --yellow-tape: #d4a017;
+      --green-success: #2d5a2d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Courier Prime', monospace;
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 20% 30%, rgba(80, 60, 40, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(60, 40, 30, 0.3) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.02) 2px, rgba(0,0,0,0.02) 4px);
+      min-height: 100vh;
+      padding: 30px 20px;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Bandeau classifié en haut */
+    .classified-banner {
+      width: 100%;
+      max-width: 600px;
+      background: var(--red-deep);
+      color: #f4e8d8;
+      padding: 8px 20px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-align: center;
+      font-size: 0.85em;
+      border-top: 2px solid #f4e8d8;
+      border-bottom: 2px solid #f4e8d8;
+      margin-bottom: 30px;
+      animation: slideDown 0.6s ease;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Le dossier papier */
+    .folder {
+      background: var(--bg-paper);
+      background-image:
+        radial-gradient(ellipse at top left, rgba(0,0,0,0.08), transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(0,0,0,0.12), transparent 60%),
+        repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(180, 160, 110, 0.15) 24px, rgba(180, 160, 110, 0.15) 25px);
+      max-width: 580px;
+      width: 100%;
+      padding: 40px 45px 50px;
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.6),
+        0 4px 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 60px rgba(180, 160, 110, 0.2);
+      position: relative;
+      transform: rotate(-0.5deg);
+      animation: paperIn 0.9s ease;
+    }
+
+    @keyframes paperIn {
+      from { opacity: 0; transform: rotate(-3deg) translateY(30px); }
+      to { opacity: 1; transform: rotate(-0.5deg) translateY(0); }
+    }
+
+    /* Coin corné */
+    .folder::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(225deg, var(--bg-dark) 50%, var(--paper-shadow) 50%);
+      box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* Tampon CONFIDENTIEL */
+    .stamp {
+      position: absolute;
+      top: 30px;
+      right: 60px;
+      transform: rotate(15deg);
+      border: 3px solid var(--red-stamp);
+      color: var(--red-stamp);
+      padding: 6px 14px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1em;
+      letter-spacing: 3px;
+      opacity: 0.75;
+      background: rgba(178, 34, 34, 0.05);
+      pointer-events: none;
+    }
+
+    .case-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+    }
+
+    .case-number {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75em;
+      letter-spacing: 2px;
+      color: #5a5040;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1.6em;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .case-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75em;
+      color: #5a5040;
+      margin-top: 8px;
+      font-family: 'Special Elite', serif;
+    }
+
+    .instructions {
+      background: rgba(212, 160, 23, 0.15);
+      border-left: 4px solid var(--yellow-tape);
+      padding: 14px 16px;
+      margin: 24px 0;
+      font-family: 'Special Elite', serif;
+      font-size: 0.95em;
+      line-height: 1.5;
+    }
+
+    .instructions strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85em;
+      letter-spacing: 2px;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .field-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8em;
+      letter-spacing: 2px;
+      color: var(--ink);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 1.1em;
+      font-family: 'Special Elite', serif;
+      background: rgba(255, 255, 255, 0.4);
+      border: none;
+      border-bottom: 2px solid var(--ink);
+      outline: none;
+      color: var(--ink);
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus {
+      background: rgba(255, 255, 255, 0.7);
+      border-bottom-color: var(--red-stamp);
+    }
+
+    input[type="text"]::placeholder {
+      color: #8a7e60;
+      font-style: italic;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 1em;
+      letter-spacing: 3px;
+      background: var(--ink);
+      color: var(--bg-paper);
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: var(--red-deep);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+    }
+
+    button:active { transform: translateY(0); }
+
+    #result {
+      margin-top: 18px;
+      min-height: 24px;
+      font-family: 'Special Elite', serif;
+      font-size: 0.95em;
+      text-align: center;
+      color: var(--ink);
+    }
+
+    .result-error { color: var(--red-deep); font-weight: 700; }
+    .result-warning { color: #a06010; font-weight: 700; }
+    .result-late { color: #6b4020; }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+    .shake { animation: shake 0.35s; }
+
+    /* Zone indices */
+    .clues-zone {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px dashed #8a7e60;
+    }
+
+    .clue-link {
+      display: inline-block;
+      font-family: 'Special Elite', serif;
+      font-size: 0.9em;
+      color: #5a5040;
+      cursor: pointer;
+      font-style: italic;
+      border-bottom: 1px dotted #5a5040;
+      transition: color 0.3s;
+    }
+
+    .clue-link:hover { color: var(--red-deep); }
+
+    .clue-text {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.3);
+      border-left: 3px solid #8a7e60;
+      font-family: 'Special Elite', serif;
+      font-size: 0.9em;
+      color: var(--ink);
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: opacity 0.6s ease, max-height 0.6s ease, margin 0.6s ease;
+    }
+
+    .clue-text.visible {
+      opacity: 1;
+      max-height: 100px;
+      margin-top: 12px;
+    }
+
+    .clue-counter {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75em;
+      letter-spacing: 2px;
+      color: #5a5040;
+      margin-top: 12px;
+    }
+
+    /* Tampon AFFAIRE RÉSOLUE animé pour la victoire */
+    .victory-stamp {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-12deg) scale(0);
+      border: 6px solid var(--green-success);
+      color: var(--green-success);
+      padding: 20px 40px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      font-size: 2.5em;
+      letter-spacing: 6px;
+      background: rgba(232, 226, 208, 0.95);
+      box-shadow: 0 0 60px rgba(0,0,0,0.6);
+      pointer-events: none;
+      z-index: 100;
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    .victory-stamp.show {
+      transform: translate(-50%, -50%) rotate(-12deg) scale(1);
+    }
+
+    @media (max-width: 480px) {
+      .folder { padding: 30px 25px 35px; }
+      .stamp { right: 30px; font-size: 0.8em; }
+      h1 { font-size: 1.3em; }
+      .victory-stamp { font-size: 1.6em; padding: 14px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="classified-banner">⛒ ⛒ ⛒ ENQUÊTE EN COURS — ACCÈS RESTREINT ⛒ ⛒ ⛒</div>
+
+  <div class="folder">
+    <div class="stamp">CONFIDENTIEL</div>
+
+    <div class="case-header">
+      <div class="case-number">DOSSIER N° 2024-SN-013</div>
+      <h1>Identification du suspect</h1>
+      <div class="case-meta">
+        <span>BRIGADE CRIMINELLE</span>
+        <span id="dateStamp"></span>
+      </div>
+    </div>
+
+    <div class="instructions">
+      <strong>▸ Rapport d'enquête</strong>
+      Suite à l'analyse des indices rassemblés tout au long de l'enquête,
+      vous devez maintenant désigner le coupable du vol de la collection de
+      boules à neige. Inscrivez son nom ci-dessous pour clôturer le dossier.
+    </div>
+
+    <label class="field-label" for="suspect">▸ Nom du suspect</label>
+    <div class="input-wrapper">
+      <input type="text" id="suspect" placeholder="Inscrire le nom complet..." autocomplete="off">
+    </div>
+
+    <button id="submitBtn">Soumettre l'inculpation</button>
+    <div id="result"></div>
+
+  </div>
+
+  <div id="victoryStamp" class="victory-stamp">AFFAIRE RÉSOLUE</div>
+
+  <script>
+    const COUPABLE = "martin maillard";
+    const PAGE_SUIVANTE = "victoire.html";
+
+    const dateStamp = document.getElementById('dateStamp');
+    const today = new Date();
+    dateStamp.textContent = today.toLocaleDateString('fr-FR', {
+      day: '2-digit', month: '2-digit', year: 'numeric'
+    });
+
+    const STORAGE_KEY = 'enquete_boules_neige';
+    let state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    let failCount = state.failCount || 0;
+    let trouve = state.trouve || false;
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ failCount, trouve }));
+    }
+
+    const input = document.getElementById('suspect');
+    const result = document.getElementById('result');
+    const submitBtn = document.getElementById('submitBtn');
+    const victoryStamp = document.getElementById('victoryStamp');
+
+    function checkPassword() {
+      const value = input.value.trim().toLowerCase();
+      result.classList.remove('shake', 'result-error', 'result-warning', 'result-late');
+
+      if (value === COUPABLE && failCount < 3 && !trouve) {
+        trouve = true;
+        saveState();
+        victoryStamp.classList.add('show');
+        setTimeout(() => {
+          window.location.href = PAGE_SUIVANTE;
+        }, 1800);
+        return;
+      }
+
+      if (value === COUPABLE && failCount >= 3) {
+        result.innerHTML = "Bravo, vous avez identifié le coupable... mais l'affaire est close.";
+        result.classList.add('result-late');
+        void result.offsetWidth;
+        result.classList.add('shake');
+        return;
+      }
+
+
+
+      // Mauvaise réponse
+      failCount++;
+      saveState();
+      let message = "";
+      if (failCount === 1) {
+        message = "Faux. Cette personne n'est pas le suspect. Nouvel essai ?";
+        result.classList.add('result-error');
+      } else if (failCount === 2) {
+        message = "Toujours faux. L'enquête s'enlise...";
+        result.classList.add('result-warning');
+      } else {
+        message = "Trop d'erreurs. Le dossier est classé sans suite.";
+        result.classList.add('result-error');
+      }
+      result.innerHTML = message;
+      void result.offsetWidth;
+      result.classList.add('shake');
+    }
+
+    submitBtn.addEventListener('click', checkPassword);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    // Focus auto sur le champ
+    input.focus();
+  </script>
+</body>
+</html>
