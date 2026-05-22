@@ -91,7 +91,6 @@
       box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
     }
 
-    /* Tampon AFFAIRE RÉSOLUE */
     .stamp {
       position: absolute;
       top: 30px;
@@ -149,7 +148,6 @@
       gap: 8px;
     }
 
-    /* Bloc déverrouillage */
     .unlock-block {
       background: rgba(45, 90, 45, 0.1);
       border-left: 4px solid var(--green-success);
@@ -158,6 +156,7 @@
       font-family: 'Special Elite', serif;
       font-size: 0.95em;
       line-height: 1.6;
+	  text-align: justify;
     }
 
     .unlock-block strong {
@@ -211,7 +210,6 @@
       background: #000;
     }
 
-    /* Surimpression timecode et infos sur la vidéo */
     .video-overlay {
       position: absolute;
       pointer-events: none;
@@ -266,7 +264,6 @@
       color: var(--ink);
     }
 
-    /* Note finale enquêteur */
     .inspector-note {
       margin-top: 30px;
       padding: 18px 20px;
@@ -316,35 +313,34 @@
 </head>
 <body>
 
-  <div class="classified-banner">✓ ✓ ✓ AFFAIRE CLÔTURÉE — DOSSIER DÉVERROUILLÉ ✓ ✓ ✓</div>
+  <div class="classified-banner">✓ ✓ ✓ CASE CLOSED — FILE UNLOCKED ✓ ✓ ✓</div>
 
   <div class="folder">
-    <div class="stamp">AFFAIRE RÉSOLUE</div>
+    <div class="stamp">CASE SOLVED</div>
 
     <div class="case-header">
-      <div class="case-number">DOSSIER N° 2024-SN-013 — PIÈCE À CONVICTION #14</div>
-      <h1>Aveu filmé du suspect</h1>
+      <div class="case-number">CASE FILE N° 2024-SN-013 — EVIDENCE #14</div>
+      <h1>Suspect's Recorded Confession</h1>
       <div class="case-meta">
-        <span>BRIGADE CRIMINELLE</span>
-        <span>SOURCE : INTERCEPTION TÉLÉPHONIQUE</span>
+        <span>CRIMINAL INVESTIGATION DIVISION</span>
+        <span>SOURCE: INTERCEPTED COMMUNICATION</span>
       </div>
     </div>
 
     <div class="unlock-block">
-      <strong>▸ Rapport de clôture</strong>
-      Suite à l'identification du suspect, les services techniques ont
-      procédé à l'examen du téléphone saisi. Une communication récente,
-      enregistrée à son insu, contient un aveu complet ainsi que la
-      localisation de la pièce maîtresse de la collection.
+      <strong>▸ Final report</strong>
+		Following the suspect’s identification, forensic technicians examined the seized phone. 
+		A recently intercepted call, recorded without his knowledge, contains a full confession, 
+		as well as information leading to the location of the collection’s centerpiece.
     </div>
 
     <div class="evidence-section">
-      <div class="evidence-label">PIÈCE VIDÉO — LECTURE AUTORISÉE</div>
+      <div class="evidence-label">VIDEO EVIDENCE</div>
 
       <div class="video-frame">
         <div class="video-overlay overlay-tl">CAM-04</div>
         <div class="video-overlay overlay-tr"><span class="rec-dot"></span>REC</div>
-        <div class="video-overlay overlay-bl">DOSSIER 2024-SN-013</div>
+        <div class="video-overlay overlay-bl">CASE FILE 2024-SN-013</div>
         <div class="video-overlay overlay-br" id="timecode">00:00:00</div>
 
         <video id="evidenceVideo" controls preload="metadata" playsinline>
@@ -355,20 +351,20 @@
 
       <div class="metadata-grid">
         <div class="metadata-item">
-          <span class="label">▸ Identifiant pièce</span>
+          <span class="label">▸ Exhibit ID</span>
           <span class="value">PC-14 / 2024-SN-013</span>
         </div>
         <div class="metadata-item">
-          <span class="label">▸ Date de captation</span>
+          <span class="label">▸ Capture Date</span>
           <span class="value" id="captureDate">—</span>
         </div>
         <div class="metadata-item">
           <span class="label">▸ Source</span>
-          <span class="value">Téléphone du suspect (saisi)</span>
+          <span class="value">Seized suspect's phone</span>
         </div>
         <div class="metadata-item">
-          <span class="label">▸ Agent en charge</span>
-          <span class="value">Insp. Decroix</span>
+          <span class="label">▸ Lead investigator</span>
+          <span class="value">Det. Liotard-Decroix</span>
         </div>
       </div>
     </div>

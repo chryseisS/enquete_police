@@ -147,6 +147,7 @@
       font-family: 'Special Elite', serif;
       font-size: 0.95em;
       line-height: 1.5;
+	  text-align: justify;
     }
 
     .instructions strong {
@@ -272,54 +273,51 @@
 </head>
 <body>
 
-  <div class="classified-banner">⛒ ⛒ ⛒ ENQUÊTE EN COURS — ACCÈS RESTREINT ⛒ ⛒ ⛒</div>
+  <div class="classified-banner">⛒ ⛒ ⛒ INVESTIGATION IN PROGRESS — RESTRICTED ACCESS ⛒ ⛒ ⛒</div>
 
   <div class="folder">
-    <div class="stamp">CONFIDENTIEL</div>
+    <div class="stamp">CONFIDENTIAL</div>
 
     <div class="case-header">
-      <div class="case-number">DOSSIER N° 2024-SN-013</div>
-      <h1>Identification du suspect</h1>
+      <div class="case-number">CASE FILE N° 2024-SN-013</div>
+      <h1>Suspect Identification</h1>
       <div class="case-meta">
-        <span>BRIGADE CRIMINELLE</span>
+        <span>CRIMINAL INVESTIGATION DIVISION</span>
         <span id="dateStamp"></span>
       </div>
     </div>
 
     <div class="instructions">
-      <strong>▸ Rapport d'enquête</strong>
-      Suite à l'analyse des indices rassemblés tout au long de l'enquête,
-      vous devez maintenant désigner le coupable du vol de la collection de
-      boules à neige. Inscrivez son nom ci-dessous pour clôturer le dossier.
+      <strong>▸ Investigation Report</strong>
+      Based on the evidence gathered over the course of this investigation,
+	  you are required to formally identify the perpetrator of the snow globe collection theft.
+	  Enter the suspect's identity below to clear this case.
     </div>
 
-    <label class="field-label" for="suspect">▸ Nom du suspect</label>
+    <label class="field-label" for="suspect">▸ Suspect Full Name</label>
     <div class="input-wrapper">
-      <input type="text" id="suspect" placeholder="Inscrire le nom complet..." autocomplete="off">
+      <input type="text" id="suspect" placeholder="Enter first and last name..." autocomplete="off">
     </div>
 
-    <button id="submitBtn">Soumettre l'inculpation</button>
+    <button id="submitBtn">File charges</button>
     <div id="result"></div>
 
   </div>
 
-  <div id="victoryStamp" class="victory-stamp">AFFAIRE RÉSOLUE</div>
+  <div id="victoryStamp" class="victory-stamp">CASE CLOSED</div>
 
   <script>
     const COUPABLE = "martin maillard";
     const PAGE_SUIVANTE = "victoire.html";
 
-    // Nettoyage d'une éventuelle ancienne sauvegarde laissée par une version antérieure
     localStorage.removeItem('enquete_boules_neige');
 
-    // Date d'aujourd'hui pour l'en-tête
     const dateStamp = document.getElementById('dateStamp');
     const today = new Date();
     dateStamp.textContent = today.toLocaleDateString('fr-FR', {
       day: '2-digit', month: '2-digit', year: 'numeric'
     });
 
-    // Compteur d'erreurs : repart à zéro à chaque ouverture/rechargement
     let failCount = 0;
 
     const input = document.getElementById('suspect');
@@ -331,7 +329,6 @@
       const value = input.value.trim().toLowerCase();
       result.classList.remove('shake', 'result-error', 'result-warning');
 
-      // Bonne réponse → redirection
       if (value === COUPABLE) {
         victoryStamp.classList.add('show');
         setTimeout(() => {
@@ -340,7 +337,6 @@
         return;
       }
 
-      // Mauvaise réponse
       failCount++;
       let message = "";
       if (failCount === 1) {
