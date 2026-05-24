@@ -391,10 +391,10 @@
 
     <div class="unlock-block">
       <strong>▸ Final Report</strong>
-      Following a court-authorized wiretap, Det. Liotard-Decroix placed the suspect under
-      phone surveillance. The recording below captures a call between the suspect and an
-      unidentified accomplice, during which the location of the collection's centerpiece
-      is disclosed. The identity of the accomplice remains unknown at this time.
+Prior to his disappearance, Detective N. placed the suspect under court-authorized phone surveillance. 
+The recording below — recovered from N.'s files after he vanished without a trace — 
+captures a call between the suspect and an unidentified accomplice, during which the location of the collection's 
+centerpiece is disclosed. Detective N.'s current whereabouts remain unknown.
     </div>
 
     <div class="evidence-section">
@@ -448,16 +448,16 @@
       Outstanding work, agent. Your thorough analysis of the evidence led to the suspect's
       identification and, ultimately, to this recording. The case is now closed.
       The collection's centerpiece can be recovered at the location mentioned in the intercept.
-      <div class="signature">— Det. Liotard-Decroix, C.I.D.</div>
+      <div class="signature">— Det. Liotard-Decroix.</div>
     </div>
 
   </div>
 
   <script>
     const captureDate = document.getElementById('captureDate');
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    captureDate.textContent = yesterday.toLocaleDateString('fr-FR') + ' — 18:47';
+    const today = new Date();
+    today.setDate(today.getDate());
+    captureDate.textContent = today.toLocaleDateString('fr-FR') + ' — 10:47';
 
     const audio     = document.getElementById('audioEl');
     const playBtn   = document.getElementById('playBtn');
@@ -508,12 +508,27 @@
       drawStatic(); 
     });
 
-    audio.addEventListener('timeupdate', () => {
-      const cur = audio.currentTime;
-      const dur = audio.duration || 0;
-      timecode.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
-      progFill.style.width = dur ? `${(cur / dur) * 100}%` : '0%';
-    });
+let knownDuration = 0;
+
+function updateProgress() {
+  const cur = audio.currentTime;
+  const dur = (audio.duration && isFinite(audio.duration)) ? audio.duration : knownDuration;
+  if (dur > knownDuration) knownDuration = dur;
+  timecode.textContent = `${formatTime(cur)} / ${formatTime(knownDuration)}`;
+  progFill.style.width = knownDuration ? `${(cur / knownDuration) * 100}%` : '0%';
+}
+
+audio.addEventListener('loadedmetadata', () => {
+  if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
+  updateProgress();
+});
+
+audio.addEventListener('durationchange', () => {
+  if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
+  updateProgress();
+});
+
+audio.addEventListener('timeupdate', updateProgress);
 
     progBar.addEventListener('click', e => {
       if (!audio.duration) return;
