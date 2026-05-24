@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pièce à conviction #14 — Aveu filmé</title>
+  <title>Evidence #14 — Intercepted Communication</title>
   <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Oswald:wght@500;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -34,7 +34,6 @@
       align-items: center;
     }
 
-    /* Bandeau classifié */
     .classified-banner {
       width: 100%;
       max-width: 720px;
@@ -83,18 +82,15 @@
     .folder::before {
       content: '';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 40px;
-      height: 40px;
+      top: 0; right: 0;
+      width: 40px; height: 40px;
       background: linear-gradient(225deg, var(--bg-dark) 50%, var(--paper-shadow) 50%);
       box-shadow: -2px 2px 4px rgba(0,0,0,0.2);
     }
 
     .stamp {
       position: absolute;
-      top: 30px;
-      right: 70px;
+      top: 30px; right: 70px;
       transform: rotate(8deg);
       border: 4px solid var(--green-success);
       color: var(--green-success);
@@ -106,6 +102,7 @@
       opacity: 0.85;
       background: rgba(45, 90, 45, 0.05);
       pointer-events: none;
+      white-space: nowrap;
       animation: stampIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.4s both;
     }
 
@@ -156,7 +153,8 @@
       font-family: 'Special Elite', serif;
       font-size: 0.95em;
       line-height: 1.6;
-	  text-align: justify;
+      text-align: justify;
+      hyphens: auto;
     }
 
     .unlock-block strong {
@@ -168,10 +166,7 @@
       margin-bottom: 6px;
     }
 
-    /* Conteneur vidéo */
-    .evidence-section {
-      margin: 30px 0;
-    }
+    .evidence-section { margin: 30px 0; }
 
     .evidence-label {
       font-family: 'Oswald', sans-serif;
@@ -196,55 +191,123 @@
       50% { opacity: 0.3; }
     }
 
-    .video-frame {
+    /* ── LECTEUR AUDIO CUSTOM ── */
+    .audio-player {
+      background: #111;
+      border: 2px solid #333;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.4);
+      padding: 20px;
       position: relative;
-      background: #000;
-      border: 3px solid var(--ink);
-      padding: 0;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
     }
 
-    .video-frame video {
-      width: 100%;
-      display: block;
-      background: #000;
-    }
-
-    .video-overlay {
-      position: absolute;
-      pointer-events: none;
+    /* Barre d'infos type terminal en haut du lecteur */
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
       font-family: 'Courier Prime', monospace;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 0.75em;
+      font-size: 0.72em;
+      color: rgba(180, 220, 180, 0.7);
       letter-spacing: 1px;
-      text-shadow: 0 0 4px rgba(0,0,0,0.9), 1px 1px 2px rgba(0,0,0,0.9);
-      z-index: 2;
+      border-bottom: 1px solid #222;
+      padding-bottom: 10px;
     }
 
-    .overlay-tl { top: 8px; left: 10px; }
-    .overlay-tr { top: 8px; right: 10px; color: rgba(255, 80, 80, 0.95); }
-    .overlay-bl { bottom: 8px; left: 10px; }
-    .overlay-br { bottom: 8px; right: 10px; }
+    .player-header .rec-indicator {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255, 80, 80, 0.9);
+    }
 
     .rec-dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 8px; height: 8px;
       background: red;
       border-radius: 50%;
-      vertical-align: middle;
-      margin-right: 4px;
       animation: pulseRec 1s infinite;
     }
 
-    /* Métadonnées sous la vidéo */
+    /* Canvas de la forme d'onde */
+    canvas {
+      width: 100%;
+      height: 80px;
+      display: block;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    /* Barre de progression cliquable */
+    .progress-bar {
+      width: 100%;
+      height: 3px;
+      background: #2a2a2a;
+      margin-bottom: 14px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: rgba(100, 200, 100, 0.7);
+      width: 0%;
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+
+    /* Contrôles */
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-play {
+      background: transparent;
+      border: 2px solid rgba(100, 200, 100, 0.6);
+      color: rgba(100, 200, 100, 0.9);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-play:hover {
+      background: rgba(100, 200, 100, 0.15);
+      border-color: rgba(100, 200, 100, 0.9);
+    }
+
+    .timecode-display {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.85em;
+      color: rgba(180, 220, 180, 0.8);
+      letter-spacing: 2px;
+      flex-shrink: 0;
+    }
+
+    .player-label {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.7em;
+      color: rgba(150, 150, 150, 0.6);
+      letter-spacing: 1px;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    /* Métadonnées */
     .metadata-grid {
       margin-top: 18px;
       padding: 14px 16px;
       background: rgba(255, 255, 255, 0.4);
       border: 1px dashed #8a7e60;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 12px;
       font-family: 'Special Elite', serif;
       font-size: 0.85em;
@@ -260,9 +323,7 @@
       margin-bottom: 2px;
     }
 
-    .metadata-item .value {
-      color: var(--ink);
-    }
+    .metadata-item .value { color: var(--ink); }
 
     .inspector-note {
       margin-top: 30px;
@@ -272,6 +333,8 @@
       font-family: 'Special Elite', serif;
       font-size: 0.95em;
       line-height: 1.6;
+      text-align: justify;
+      hyphens: auto;
     }
 
     .inspector-note strong {
@@ -299,15 +362,14 @@
         margin: 0 auto 20px;
         width: fit-content;
         transform: rotate(-4deg);
-        font-size: 0.9em;
-        padding: 6px 14px;
-      }
-      @keyframes stampIn {
-        from { transform: rotate(20deg) scale(1.8); opacity: 0; }
-        to { transform: rotate(-4deg) scale(1); opacity: 0.85; }
+        font-size: 0.85em;
+        padding: 5px 12px;
+        letter-spacing: 3px;
+        border-width: 3px;
       }
       h1 { font-size: 1.2em; }
-      .video-overlay { font-size: 0.65em; }
+      canvas { height: 60px; }
+      .player-label { display: none; }
     }
   </style>
 </head>
@@ -320,33 +382,45 @@
 
     <div class="case-header">
       <div class="case-number">CASE FILE N° 2024-SN-013 — EVIDENCE #14</div>
-      <h1>Suspect's Recorded Confession</h1>
+      <h1>Intercepted Communication</h1>
       <div class="case-meta">
         <span>CRIMINAL INVESTIGATION DIVISION</span>
-        <span>SOURCE: INTERCEPTED COMMUNICATION</span>
+        <span>SOURCE: JUDICIAL WIRETAP</span>
       </div>
     </div>
 
     <div class="unlock-block">
-      <strong>▸ Final report</strong>
-		Following the suspect’s identification, forensic technicians examined the seized phone. 
-		A recently intercepted call, recorded without his knowledge, contains a full confession, 
-		as well as information leading to the location of the collection’s centerpiece.
+      <strong>▸ Final Report</strong>
+      Following a court-authorized wiretap, Det. Liotard-Decroix placed the suspect under
+      phone surveillance. The recording below captures a call between the suspect and an
+      unidentified accomplice, during which the location of the collection's centerpiece
+      is disclosed. The identity of the accomplice remains unknown at this time.
     </div>
 
     <div class="evidence-section">
-      <div class="evidence-label">VIDEO EVIDENCE</div>
+      <div class="evidence-label">AUDIO EVIDENCE — AUTHORIZED PLAYBACK</div>
 
-      <div class="video-frame">
-        <div class="video-overlay overlay-tl">CAM-04</div>
-        <div class="video-overlay overlay-tr"><span class="rec-dot"></span>REC</div>
-        <div class="video-overlay overlay-bl">CASE FILE 2024-SN-013</div>
-        <div class="video-overlay overlay-br" id="timecode">00:00:00</div>
+      <div class="audio-player">
+        <div class="player-header">
+          <span>INTERCEPT // CASE-2024-SN-013 // CH.2</span>
+          <span class="rec-indicator"><span class="rec-dot"></span> RECORDED</span>
+        </div>
 
-        <video id="evidenceVideo" controls preload="metadata" playsinline>
-          <source src="drone_5.mp4" type="video/mp4">
-          Votre navigateur ne supporte pas la lecture vidéo.
-        </video>
+        <canvas id="waveCanvas"></canvas>
+
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="player-controls">
+          <button class="btn-play" id="playBtn" aria-label="Play/Pause">▶</button>
+          <span class="timecode-display" id="timecode">00:00 / 00:00</span>
+          <span class="player-label">recording.mp3<br>WIRETAP · DET. LIOTARD-DECROIX</span>
+        </div>
+
+        <audio id="audioEl" preload="metadata">
+          <source src="recording.mp3" type="audio/mpeg">
+        </audio>
       </div>
 
       <div class="metadata-grid">
@@ -355,18 +429,26 @@
           <span class="value">PC-14 / 2024-SN-013</span>
         </div>
         <div class="metadata-item">
-          <span class="label">▸ Capture Date</span>
+          <span class="label">▸ Intercept Date</span>
           <span class="value" id="captureDate">—</span>
         </div>
         <div class="metadata-item">
           <span class="label">▸ Source</span>
-          <span class="value">Seized suspect's phone</span>
+          <span class="value">Judicial wiretap (auth. #JW-2024-447)</span>
         </div>
         <div class="metadata-item">
-          <span class="label">▸ Lead investigator</span>
+          <span class="label">▸ Lead Investigator</span>
           <span class="value">Det. Liotard-Decroix</span>
         </div>
       </div>
+    </div>
+
+    <div class="inspector-note">
+      <strong>▸ Investigator's Note</strong>
+      Outstanding work, agent. Your thorough analysis of the evidence led to the suspect's
+      identification and, ultimately, to this recording. The case is now closed.
+      The collection's centerpiece can be recovered at the location mentioned in the intercept.
+      <div class="signature">— Det. Liotard-Decroix, C.I.D.</div>
     </div>
 
   </div>
@@ -377,19 +459,114 @@
     yesterday.setDate(yesterday.getDate() - 1);
     captureDate.textContent = yesterday.toLocaleDateString('fr-FR') + ' — 18:47';
 
-    const video = document.getElementById('evidenceVideo');
-    const tc = document.getElementById('timecode');
+    const audio     = document.getElementById('audioEl');
+    const playBtn   = document.getElementById('playBtn');
+    const timecode  = document.getElementById('timecode');
+    const progBar   = document.getElementById('progressBar');
+    const progFill  = document.getElementById('progressFill');
+    const canvas    = document.getElementById('waveCanvas');
+    const ctx       = canvas.getContext('2d');
 
-    function formatTime(seconds) {
-      const h = Math.floor(seconds / 3600);
-      const m = Math.floor((seconds % 3600) / 60);
-      const s = Math.floor(seconds % 60);
-      return [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+    let audioCtx, analyser, source, dataArray, animFrame;
+    let isConnected = false;
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
     }
 
-    video.addEventListener('timeupdate', () => {
-      tc.textContent = formatTime(video.currentTime);
+    function initAudio() {
+      if (isConnected) return;
+      audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
+      analyser  = audioCtx.createAnalyser();
+      analyser.fftSize = 256;
+      source    = audioCtx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+      isConnected = true;
+    }
+
+    playBtn.addEventListener('click', () => {
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      if (audio.paused) {
+        audio.play();
+        playBtn.textContent = '⏸';
+        drawWaveform();
+      } else {
+        audio.pause();
+        playBtn.textContent = '▶';
+        cancelAnimationFrame(animFrame);
+      }
     });
+
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+      cancelAnimationFrame(animFrame);
+      drawStatic(); 
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      const cur = audio.currentTime;
+      const dur = audio.duration || 0;
+      timecode.textContent = `${formatTime(cur)} / ${formatTime(dur)}`;
+      progFill.style.width = dur ? `${(cur / dur) * 100}%` : '0%';
+    });
+
+    progBar.addEventListener('click', e => {
+      if (!audio.duration) return;
+      const ratio = e.offsetX / progBar.offsetWidth;
+      audio.currentTime = ratio * audio.duration;
+    });
+
+    function resizeCanvas() {
+      canvas.width  = canvas.offsetWidth * window.devicePixelRatio;
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', () => { resizeCanvas(); if (audio.paused) drawStatic(); });
+
+    function drawStatic() {
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      ctx.clearRect(0, 0, w, h);
+      const barCount = Math.floor(w / 4);
+      const barW = 2;
+      const gap  = (w - barCount * barW) / barCount;
+      for (let i = 0; i < barCount; i++) {
+        const barH = (Math.random() * 0.5 + 0.05) * h;
+        const x = i * (barW + gap);
+        ctx.fillStyle = 'rgba(80, 140, 80, 0.35)';
+        ctx.fillRect(x, (h - barH) / 2, barW, barH);
+      }
+    }
+
+    function drawWaveform() {
+      animFrame = requestAnimationFrame(drawWaveform);
+      analyser.getByteFrequencyData(dataArray);
+
+      const w = canvas.offsetWidth;
+      const h = canvas.offsetHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      const barCount = dataArray.length;
+      const barW = Math.max(1, (w / barCount) - 1);
+
+      for (let i = 0; i < barCount; i++) {
+        const val   = dataArray[i] / 255;           // 0 → 1
+        const barH  = val * h * 0.9;
+        const x     = i * (barW + 1);
+
+        const green = Math.floor(120 + val * 100);
+        ctx.fillStyle = `rgba(60, ${green}, 60, ${0.5 + val * 0.5})`;
+        ctx.fillRect(x, (h - barH) / 2, barW, barH);
+      }
+    }
+
+    drawStatic();
   </script>
 </body>
 </html>
