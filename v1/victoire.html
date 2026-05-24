@@ -66,9 +66,9 @@
       width: 100%;
       padding: 40px 45px 50px;
       box-shadow:
-        0 20px 40px rgba(0, 0, 0, 0.6),
-        0 4px 12px rgba(0, 0, 0, 0.4),
-        inset 0 0 60px rgba(180, 160, 110, 0.2);
+        0 20px 40px rgba(0,0,0,0.6),
+        0 4px 12px rgba(0,0,0,0.4),
+        inset 0 0 60px rgba(180,160,110,0.2);
       position: relative;
       transform: rotate(-0.3deg);
       animation: paperIn 0.9s ease;
@@ -76,7 +76,7 @@
 
     @keyframes paperIn {
       from { opacity: 0; transform: rotate(-2deg) translateY(30px); }
-      to { opacity: 1; transform: rotate(-0.3deg) translateY(0); }
+      to   { opacity: 1; transform: rotate(-0.3deg) translateY(0); }
     }
 
     .folder::before {
@@ -100,15 +100,15 @@
       font-size: 1.1em;
       letter-spacing: 4px;
       opacity: 0.85;
-      background: rgba(45, 90, 45, 0.05);
+      background: rgba(45,90,45,0.05);
       pointer-events: none;
       white-space: nowrap;
-      animation: stampIn 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.4s both;
+      animation: stampIn 0.6s cubic-bezier(0.68,-0.55,0.27,1.55) 0.4s both;
     }
 
     @keyframes stampIn {
       from { transform: rotate(40deg) scale(2); opacity: 0; }
-      to { transform: rotate(8deg) scale(1); opacity: 0.85; }
+      to   { transform: rotate(8deg) scale(1); opacity: 0.85; }
     }
 
     .case-header {
@@ -146,7 +146,7 @@
     }
 
     .unlock-block {
-      background: rgba(45, 90, 45, 0.1);
+      background: rgba(45,90,45,0.1);
       border-left: 4px solid var(--green-success);
       padding: 14px 16px;
       margin: 24px 0;
@@ -188,37 +188,35 @@
 
     @keyframes pulseRec {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      50%       { opacity: 0.3; }
     }
 
-    /* ── LECTEUR AUDIO CUSTOM ── */
+    /* ── LECTEUR AUDIO CUSTOM SIMPLE ── */
     .audio-player {
       background: #111;
       border: 2px solid #333;
       box-shadow: 0 8px 20px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.4);
       padding: 20px;
-      position: relative;
     }
 
-    /* Barre d'infos type terminal en haut du lecteur */
     .player-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 18px;
       font-family: 'Courier Prime', monospace;
       font-size: 0.72em;
-      color: rgba(180, 220, 180, 0.7);
+      color: rgba(180,220,180,0.7);
       letter-spacing: 1px;
       border-bottom: 1px solid #222;
       padding-bottom: 10px;
     }
 
-    .player-header .rec-indicator {
+    .rec-indicator {
       display: flex;
       align-items: center;
       gap: 6px;
-      color: rgba(255, 80, 80, 0.9);
+      color: rgba(255,80,80,0.9);
     }
 
     .rec-dot {
@@ -229,31 +227,24 @@
       animation: pulseRec 1s infinite;
     }
 
-    /* Canvas de la forme d'onde */
-    canvas {
-      width: 100%;
-      height: 80px;
-      display: block;
-      margin-bottom: 14px;
-      cursor: pointer;
-    }
-
-    /* Barre de progression cliquable */
+    /* Barre de progression */
     .progress-bar {
       width: 100%;
-      height: 3px;
+      height: 4px;
       background: #2a2a2a;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       cursor: pointer;
       position: relative;
+      border-radius: 2px;
     }
 
     .progress-fill {
       height: 100%;
-      background: rgba(100, 200, 100, 0.7);
+      background: rgba(100,200,100,0.8);
       width: 0%;
-      transition: width 0.1s linear;
+      border-radius: 2px;
       pointer-events: none;
+      transition: width 0.1s linear;
     }
 
     /* Contrôles */
@@ -265,9 +256,9 @@
 
     .btn-play {
       background: transparent;
-      border: 2px solid rgba(100, 200, 100, 0.6);
-      color: rgba(100, 200, 100, 0.9);
-      width: 40px; height: 40px;
+      border: 2px solid rgba(100,200,100,0.6);
+      color: rgba(100,200,100,0.9);
+      width: 42px; height: 42px;
       border-radius: 50%;
       cursor: pointer;
       font-size: 1em;
@@ -279,14 +270,14 @@
     }
 
     .btn-play:hover {
-      background: rgba(100, 200, 100, 0.15);
-      border-color: rgba(100, 200, 100, 0.9);
+      background: rgba(100,200,100,0.15);
+      border-color: rgba(100,200,100,0.9);
     }
 
     .timecode-display {
       font-family: 'Courier Prime', monospace;
       font-size: 0.85em;
-      color: rgba(180, 220, 180, 0.8);
+      color: rgba(180,220,180,0.8);
       letter-spacing: 2px;
       flex-shrink: 0;
     }
@@ -294,17 +285,18 @@
     .player-label {
       font-family: 'Courier Prime', monospace;
       font-size: 0.7em;
-      color: rgba(150, 150, 150, 0.6);
+      color: rgba(150,150,150,0.6);
       letter-spacing: 1px;
       margin-left: auto;
       text-align: right;
+      line-height: 1.4;
     }
 
     /* Métadonnées */
     .metadata-grid {
       margin-top: 18px;
       padding: 14px 16px;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255,255,255,0.4);
       border: 1px dashed #8a7e60;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -328,7 +320,7 @@
     .inspector-note {
       margin-top: 30px;
       padding: 18px 20px;
-      background: rgba(212, 160, 23, 0.15);
+      background: rgba(212,160,23,0.15);
       border-left: 4px solid var(--yellow-tape);
       font-family: 'Special Elite', serif;
       font-size: 0.95em;
@@ -368,7 +360,6 @@
         border-width: 3px;
       }
       h1 { font-size: 1.2em; }
-      canvas { height: 60px; }
       .player-label { display: none; }
     }
   </style>
@@ -391,10 +382,11 @@
 
     <div class="unlock-block">
       <strong>▸ Final Report</strong>
-Prior to his disappearance, Detective N. placed the suspect under court-authorized phone surveillance. 
-The recording below — recovered from N.'s files after he vanished without a trace — 
-captures a call between the suspect and an unidentified accomplice, during which the location of the collection's 
-centerpiece was disclosed. Detective N.'s current whereabouts remain unknown.
+      Prior to his disappearance, Detective N. placed the suspect under court-authorized
+      phone surveillance. The recording below — recovered from N.'s files after he vanished
+      without a trace — captures a call between the suspect and his accomplice, during which
+      the location of the collection's centerpiece was disclosed. Detective N.'s current
+      whereabouts remain unknown.
     </div>
 
     <div class="evidence-section">
@@ -402,11 +394,9 @@ centerpiece was disclosed. Detective N.'s current whereabouts remain unknown.
 
       <div class="audio-player">
         <div class="player-header">
-          <span>INTERCEPT // CASE-2024-SN-013 // CH.2</span>
+          <span>INTERCEPT // CASE-2024-SN-013</span>
           <span class="rec-indicator"><span class="rec-dot"></span> RECORDED</span>
         </div>
-
-        <canvas id="waveCanvas"></canvas>
 
         <div class="progress-bar" id="progressBar">
           <div class="progress-fill" id="progressFill"></div>
@@ -415,7 +405,7 @@ centerpiece was disclosed. Detective N.'s current whereabouts remain unknown.
         <div class="player-controls">
           <button class="btn-play" id="playBtn" aria-label="Play/Pause">▶</button>
           <span class="timecode-display" id="timecode">00:00 / 00:00</span>
-          <span class="player-label">recording.mp3<br>WIRETAP · DET. LIOTARD-DECROIX</span>
+          <span class="player-label"><br>WIRETAP · DET. N</span>
         </div>
 
         <audio id="audioEl" preload="metadata">
@@ -445,145 +435,80 @@ centerpiece was disclosed. Detective N.'s current whereabouts remain unknown.
 
     <div class="inspector-note">
       <strong>▸ Investigator's Note</strong>
-      Outstanding work, agent. Your thorough analysis of the evidence led to the suspect's
-      identification and, ultimately, to this recording. The case is officially cleared.
-      The collection's centerpiece can be recovered at the location mentioned in the intercept.
+      Outstanding work, agent. The case is officially cleared.
+      Dispatch a team to secure the centerpiece at the location mentioned in the intercept.
       <div class="signature">— Det. Liotard-Decroix.</div>
     </div>
 
   </div>
 
   <script>
+    // Date
     const captureDate = document.getElementById('captureDate');
     const today = new Date();
-    today.setDate(today.getDate());
+    today.setDate(today.getDate() - 1);
     captureDate.textContent = today.toLocaleDateString('fr-FR') + ' — 10:47';
 
-    const audio     = document.getElementById('audioEl');
-    const playBtn   = document.getElementById('playBtn');
-    const timecode  = document.getElementById('timecode');
-    const progBar   = document.getElementById('progressBar');
-    const progFill  = document.getElementById('progressFill');
-    const canvas    = document.getElementById('waveCanvas');
-    const ctx       = canvas.getContext('2d');
-
-    let audioCtx, analyser, source, dataArray, animFrame;
-    let isConnected = false;
+    // Éléments
+    const audio    = document.getElementById('audioEl');
+    const playBtn  = document.getElementById('playBtn');
+    const timecode = document.getElementById('timecode');
+    const progBar  = document.getElementById('progressBar');
+    const progFill = document.getElementById('progressFill');
 
     function formatTime(s) {
+      if (!s || !isFinite(s)) return '00:00';
       const m = Math.floor(s / 60);
       const sec = Math.floor(s % 60);
       return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
     }
 
-    function initAudio() {
-      if (isConnected) return;
-      audioCtx  = new (window.AudioContext || window.webkitAudioContext)();
-      analyser  = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      source    = audioCtx.createMediaElementSource(audio);
-      source.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      dataArray = new Uint8Array(analyser.frequencyBinCount);
-      isConnected = true;
-    }
-
+    // Play / Pause
     playBtn.addEventListener('click', () => {
-      initAudio();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
       if (audio.paused) {
         audio.play();
         playBtn.textContent = '⏸';
-        drawWaveform();
       } else {
         audio.pause();
         playBtn.textContent = '▶';
-        cancelAnimationFrame(animFrame);
       }
     });
 
-audio.addEventListener('ended', () => {
-  playBtn.textContent = '▶';
-  cancelAnimationFrame(animFrame);
-  progFill.style.width = '100%';
-  timecode.textContent = `${formatTime(knownDuration)} / ${formatTime(knownDuration)}`;
-  drawStatic();
-});
+    // Fin de lecture
+    audio.addEventListener('ended', () => {
+      playBtn.textContent = '▶';
+      progFill.style.width = '100%';
+      timecode.textContent = `${formatTime(audio.duration)} / ${formatTime(audio.duration)}`;
+    });
 
-let knownDuration = 0;
+    // Progression
+    let knownDuration = 0;
 
-function updateProgress() {
-  const cur = audio.currentTime;
-  const dur = (audio.duration && isFinite(audio.duration)) ? audio.duration : knownDuration;
-  if (dur > knownDuration) knownDuration = dur;
-  timecode.textContent = `${formatTime(cur)} / ${formatTime(knownDuration)}`;
-  progFill.style.width = knownDuration ? `${(cur / knownDuration) * 100}%` : '0%';
-}
-
-audio.addEventListener('loadedmetadata', () => {
-  if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
-  updateProgress();
-});
-
-audio.addEventListener('durationchange', () => {
-  if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
-  updateProgress();
-});
-
-audio.addEventListener('timeupdate', updateProgress);
-
-progBar.addEventListener('click', e => {
-  if (!knownDuration) return;
-  const ratio = e.offsetX / progBar.offsetWidth;
-  audio.currentTime = ratio * knownDuration;
-});
-
-    function resizeCanvas() {
-      canvas.width  = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-    resizeCanvas();
-    window.addEventListener('resize', () => { resizeCanvas(); if (audio.paused) drawStatic(); });
-
-    function drawStatic() {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
-      const barCount = Math.floor(w / 4);
-      const barW = 2;
-      const gap  = (w - barCount * barW) / barCount;
-      for (let i = 0; i < barCount; i++) {
-        const barH = (Math.random() * 0.5 + 0.05) * h;
-        const x = i * (barW + gap);
-        ctx.fillStyle = 'rgba(80, 140, 80, 0.35)';
-        ctx.fillRect(x, (h - barH) / 2, barW, barH);
-      }
+    function updateProgress() {
+      const cur = audio.currentTime;
+      const dur = (audio.duration && isFinite(audio.duration)) ? audio.duration : knownDuration;
+      if (dur > knownDuration) knownDuration = dur;
+      timecode.textContent = `${formatTime(cur)} / ${formatTime(knownDuration)}`;
+      progFill.style.width = knownDuration ? `${(cur / knownDuration) * 100}%` : '0%';
     }
 
-    function drawWaveform() {
-      animFrame = requestAnimationFrame(drawWaveform);
-      analyser.getByteFrequencyData(dataArray);
+    audio.addEventListener('loadedmetadata', () => {
+      if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
+      updateProgress();
+    });
 
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      ctx.clearRect(0, 0, w, h);
+    audio.addEventListener('durationchange', () => {
+      if (audio.duration && isFinite(audio.duration)) knownDuration = audio.duration;
+      updateProgress();
+    });
 
-      const barCount = dataArray.length;
-      const barW = Math.max(1, (w / barCount) - 1);
+    audio.addEventListener('timeupdate', updateProgress);
 
-      for (let i = 0; i < barCount; i++) {
-        const val   = dataArray[i] / 255;           // 0 → 1
-        const barH  = val * h * 0.9;
-        const x     = i * (barW + 1);
-
-        const green = Math.floor(120 + val * 100);
-        ctx.fillStyle = `rgba(60, ${green}, 60, ${0.5 + val * 0.5})`;
-        ctx.fillRect(x, (h - barH) / 2, barW, barH);
-      }
-    }
-
-    drawStatic();
+    // Clic sur la barre pour se déplacer
+    progBar.addEventListener('click', e => {
+      if (!knownDuration) return;
+      audio.currentTime = (e.offsetX / progBar.offsetWidth) * knownDuration;
+    });
   </script>
 </body>
 </html>
