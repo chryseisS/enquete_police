@@ -394,7 +394,7 @@
 Prior to his disappearance, Detective N. placed the suspect under court-authorized phone surveillance. 
 The recording below — recovered from N.'s files after he vanished without a trace — 
 captures a call between the suspect and an unidentified accomplice, during which the location of the collection's 
-centerpiece is disclosed. Detective N.'s current whereabouts remain unknown.
+centerpiece was disclosed. Detective N.'s current whereabouts remain unknown.
     </div>
 
     <div class="evidence-section">
@@ -446,7 +446,7 @@ centerpiece is disclosed. Detective N.'s current whereabouts remain unknown.
     <div class="inspector-note">
       <strong>▸ Investigator's Note</strong>
       Outstanding work, agent. Your thorough analysis of the evidence led to the suspect's
-      identification and, ultimately, to this recording. The case is now closed.
+      identification and, ultimately, to this recording. The case is officially cleared.
       The collection's centerpiece can be recovered at the location mentioned in the intercept.
       <div class="signature">— Det. Liotard-Decroix.</div>
     </div>
@@ -502,11 +502,13 @@ centerpiece is disclosed. Detective N.'s current whereabouts remain unknown.
       }
     });
 
-    audio.addEventListener('ended', () => {
-      playBtn.textContent = '▶';
-      cancelAnimationFrame(animFrame);
-      drawStatic(); 
-    });
+audio.addEventListener('ended', () => {
+  playBtn.textContent = '▶';
+  cancelAnimationFrame(animFrame);
+  progFill.style.width = '100%';
+  timecode.textContent = `${formatTime(knownDuration)} / ${formatTime(knownDuration)}`;
+  drawStatic();
+});
 
 let knownDuration = 0;
 
@@ -530,11 +532,11 @@ audio.addEventListener('durationchange', () => {
 
 audio.addEventListener('timeupdate', updateProgress);
 
-    progBar.addEventListener('click', e => {
-      if (!audio.duration) return;
-      const ratio = e.offsetX / progBar.offsetWidth;
-      audio.currentTime = ratio * audio.duration;
-    });
+progBar.addEventListener('click', e => {
+  if (!knownDuration) return;
+  const ratio = e.offsetX / progBar.offsetWidth;
+  audio.currentTime = ratio * knownDuration;
+});
 
     function resizeCanvas() {
       canvas.width  = canvas.offsetWidth * window.devicePixelRatio;
