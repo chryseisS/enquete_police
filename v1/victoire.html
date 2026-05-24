@@ -390,7 +390,7 @@
     </div>
 
     <div class="evidence-section">
-      <div class="evidence-label">AUDIO EVIDENCE — AUTHORIZED PLAYBACK</div>
+      <div class="evidence-label">AUDIO EVIDENCE</div>
 
       <div class="audio-player">
         <div class="player-header">
@@ -446,8 +446,8 @@
     // Date
     const captureDate = document.getElementById('captureDate');
     const today = new Date();
-    today.setDate(today.getDate() - 1);
-    captureDate.textContent = today.toLocaleDateString('fr-FR') + ' — 10:47';
+    today.setDate(today.getDate());
+    captureDate.textContent = today.toLocaleDateString('fr-FR') + ' — 14:47';
 
     // Éléments
     const audio    = document.getElementById('audioEl');
