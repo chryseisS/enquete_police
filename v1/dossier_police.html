@@ -308,7 +308,7 @@
   <div id="victoryStamp" class="victory-stamp">CASE CLOSED</div>
 
   <script>
-    const COUPABLE = "martin maillard";
+    const COUPABLE = "martinmaillard";
     const PAGE_SUIVANTE = "victoire.html";
 
     localStorage.removeItem('enquete_boules_neige');
@@ -327,8 +327,8 @@
     const victoryStamp = document.getElementById('victoryStamp');
 
     function checkPassword() {
-      const value = input.value.trim().toLowerCase();
-      result.classList.remove('shake', 'result-error', 'result-warning');
+	const value = input.value.replace(/\s+/g, '').toLowerCase();
+	result.classList.remove('shake', 'result-error', 'result-warning');
 
       if (value === COUPABLE) {
         victoryStamp.classList.add('show');
